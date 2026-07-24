@@ -16,21 +16,21 @@ tmp_*.txt
 data/
 outputs/_archive/*
 outputs/*
+outputs/requested_districts/**
 
 # Keep the published site and current summary artifacts tracked.
 !outputs/
 !outputs/requested_districts/
-!outputs/requested_districts_site/
-!outputs/village_connectivity_map.html
-!outputs/village_connectivity_summary.xlsx
-!outputs/village_provider_signal_estimate.csv
-!outputs/village_connectivity.geojson
-!outputs/requested_districts_site/
-!outputs/requested_districts_site/index.html
 !outputs/requested_districts/requested_district_summary.csv
 !outputs/requested_districts/requested_district_status.csv
 !outputs/requested_districts/requested_district_status.json
 !outputs/requested_districts/requested_district_status.md
+!outputs/requested_districts_site/
+!outputs/requested_districts_site/index.html
+!outputs/village_connectivity_map.html
+!outputs/village_connectivity_summary.xlsx
+!outputs/village_provider_signal_estimate.csv
+!outputs/village_connectivity.geojson
 !outputs/barwani_lgd_village_codes.csv
 !outputs/bidar_lgd_village_codes.csv
 !outputs/dhar_lgd_village_codes.csv
