@@ -1,0 +1,9 @@
+pandas
+geopandas
+shapely
+pyproj
+requests
+openpyxl
+pyyaml
+pyogrio
+pyarrow

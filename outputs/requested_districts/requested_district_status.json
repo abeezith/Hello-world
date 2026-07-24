@@ -1,0 +1,12 @@
+{
+  "requested_district_count": 27,
+  "status_counts": {
+    "fallback_no_tower_evidence": 11,
+    "completed_tower_enriched": 8,
+    "fallback_tower_enriched": 5,
+    "fetched_no_tower_evidence": 2,
+    "source_missing": 1
+  },
+  "requested_district_source": "E:\\Resources\\SecondBrain\\outputs\\phi_requested_districts_20260629\\phi_requested_districts.csv",
+  "source_screening_file": "E:\\Resources\\SecondBrain\\outputs\\stoptb_ben_screen_30_Jun_2026_mapped.csv"
+}

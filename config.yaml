@@ -1,0 +1,156 @@
+filters:
+  state: Odisha
+  district: Koraput
+  block: Koraput
+
+paths:
+  village_input: ./data/villages.xlsx
+  village_master: ./data/lgd_village_master.xlsx
+  opencellid_towers: ./data/opencellid_india.csv.gz
+  ookla_tiles: ./data/ookla_mobile_tiles.geojson
+  output_dir: ./outputs
+  cache_dir: ./data/cache
+
+api:
+  opencellid:
+    enabled: true
+    download_url: ""
+    token: "pk.1fb9131d596952ba3fd72af909651440"
+    request_headers: {}
+    mode: area_api
+    area_tile_size_deg: 0.018
+    max_bbox_area_sq_m: 4000000
+    page_limit: 50
+    pause_seconds: 0.05
+    workers: 6
+
+distance:
+  search_radius_km: 10
+  expanded_search_radius_km: 10
+  shared_pool_search_radius_km: 30
+  strong_km: 2
+  moderate_km: 5
+
+scoring:
+  strong_download_mbps: 10
+  moderate_download_mbps: 5
+  strong_signal_dbm: -85
+  moderate_signal_dbm: -100
+
+ookla:
+  nearest_tile_max_km: 5
+
+cache:
+  enabled: true
+  reuse_opencellid_extent_cache: true
+
+current_operators:
+  - Airtel
+  - BSNL
+  - Jio
+  - Vodafone Idea
+
+legacy_provider_policy:
+  Aircel: suppress
+  Aircel Cellular: suppress
+  MTS: suppress
+  Loop Mobile: suppress
+  Reliance Communications: suppress
+  Uninor: suppress
+  Telenor: suppress
+  Videocon: suppress
+  Tata Docomo: Airtel
+  Tata Teleservices: Airtel
+  Tata Indicom: Airtel
+  MTNL: suppress
+  Vodafone India: Vodafone Idea
+  Vodafone Cellular: Vodafone Idea
+  Vodafone Essar: Vodafone Idea
+  Idea Cellular: Vodafone Idea
+  Idea Cellular Ltd: Vodafone Idea
+  Bharti Airtel: Airtel
+  Bharti Airtel Ltd: Airtel
+
+columns:
+  villages:
+    state: state
+    district: district
+    block: block
+    village: village
+    lgd_code: lgd_code
+    latitude: latitude
+    longitude: longitude
+  village_master:
+    state: state
+    district: district
+    block: block
+    village: village
+    lgd_code: lgd_code
+    latitude: latitude
+    longitude: longitude
+  towers:
+    radio: radio
+    mcc: mcc
+    mnc: net
+    lac: area
+    cellid: cell
+    latitude: lat
+    longitude: lon
+    operator: operator
+    average_signal: averageSignal
+  ookla:
+    provider: provider
+    avg_download_mbps: avg_download_mbps
+    avg_upload_mbps: avg_upload_mbps
+    tests: tests
+
+provider_mapping:
+  "404-10": Airtel
+  "404-45": Airtel
+  "404-49": Airtel
+  "405-51": Airtel
+  "405-52": Airtel
+  "405-53": Airtel
+  "405-54": Airtel
+  "404-84": Jio
+  "405-840": Jio
+  "405-854": Jio
+  "405-855": Jio
+  "405-856": Jio
+  "405-857": Jio
+  "404-86": Vodafone Idea
+  "404-88": Vodafone Idea
+  "405-66": Vodafone Idea
+  "405-67": Vodafone Idea
+  "405-750": Vodafone Idea
+  "404-01": Vodafone Idea
+  "404-09": Reliance Communications
+  "404-14": Vodafone Idea
+  "404-22": Vodafone Idea
+  "404-28": Aircel
+  "404-27": Vodafone Idea
+  "404-31": Airtel
+  "404-41": Airtel
+  "404-43": Vodafone Idea
+  "404-44": Vodafone Idea
+  "404-46": Vodafone Idea
+  "404-51": BSNL
+  "404-52": BSNL
+  "404-53": BSNL
+  "404-55": BSNL
+  "404-57": BSNL
+  "404-58": BSNL
+  "404-59": BSNL
+  "404-62": BSNL
+  "404-64": BSNL
+  "404-66": BSNL
+  "404-71": BSNL
+  "404-72": BSNL
+  "404-76": BSNL
+  "405-799": BSNL
+  "405-800": BSNL
+  "405-801": BSNL
+  "405-41": Tata Docomo
+  "405-753": Vodafone Idea
+  "405-850": Vodafone Idea
+  "405-866": Jio
