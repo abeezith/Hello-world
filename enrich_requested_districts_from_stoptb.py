@@ -39,7 +39,12 @@ MAX_BLOCK_GEOCODES_PER_DISTRICT = 80
 DISTRICT_ALIASES = {
     "alluri sitharama raju": "Alluri Sitarama Raju",
     "alluri sita ramaraju": "Alluri Sitarama Raju",
+    "khargone (west nimar)": "Khargone",
     "khargone west nimar": "Khargone",
+    "parvathi puram": "Parvathipuram Manyam",
+    "parvathi puram manyam": "Parvathipuram Manyam",
+    "parvathipuram": "Parvathipuram Manyam",
+    "parvathipuram manyam": "Parvathipuram Manyam",
 }
 
 _LGD_MASTER_CACHE: pd.DataFrame | None = None
@@ -84,7 +89,7 @@ def load_requested_districts() -> list[dict[str, str]]:
     requested_districts: list[dict[str, str]] = []
     for row in unique_rows.itertuples(index=False):
         requested_state = canonicalize_state(row.requested_state)
-        requested_district = str(row.requested_district).strip()
+        requested_district = canonicalize_district(row.requested_district)
         matched_state = canonicalize_state(row.matched_state)
         matched_district = canonicalize_district(row.matched_district)
         requested_districts.append(
