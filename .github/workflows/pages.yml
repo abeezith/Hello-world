@@ -3,6 +3,7 @@ name: Deploy District Connectivity Page
 on:
   push:
     branches:
+      - master
       - main
     paths:
       - "docs/**"
