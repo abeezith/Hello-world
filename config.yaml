@@ -44,6 +44,20 @@ cache:
   enabled: true
   reuse_opencellid_extent_cache: true
 
+supabase:
+  enabled: false
+  url: ""
+  anon_key: ""
+  service_role_key: ""
+  schema: public
+  table_prefix: connectivity
+  timeout_seconds: 30
+  chunk_size: 500
+  fail_on_error: true
+  sync_provider_rows: true
+  sync_village_summary: true
+  sync_run_metadata: true
+
 current_operators:
   - Airtel
   - BSNL

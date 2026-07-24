@@ -20,6 +20,12 @@ Running the pipeline writes:
 
 All outputs are created inside the folder configured by `paths.output_dir` in [config.yaml](/E:/Resources/SecondBrain/koraput_connectivity_pipeline/config.yaml).
 
+If Supabase is configured, the pipeline also mirrors three database tables:
+
+- `connectivity_provider_rows`
+- `connectivity_village_summary`
+- `connectivity_runs`
+
 ## Efficiency Notes
 
 The project is now optimized for repeated district runs:
@@ -69,6 +75,36 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+## Optional Supabase connection
+
+The repo supports an opt-in Supabase sync using the REST API. Keep secrets out of the repo and set them as environment variables instead:
+
+Use [.env.example](./.env.example) as a template for local setup.
+
+```powershell
+$env:SUPABASE_URL="https://YOUR-PROJECT.supabase.co"
+$env:SUPABASE_SERVICE_ROLE_KEY="YOUR_SERVICE_ROLE_KEY"
+```
+
+If you prefer config-driven setup, you can also fill the `supabase` section in [config.yaml](/E:/Resources/SecondBrain/koraput_connectivity_pipeline/config.yaml) and set `enabled: true`.
+
+Recommended table names:
+
+- `connectivity_provider_rows`
+- `connectivity_village_summary`
+- `connectivity_runs`
+
+The sync is idempotent per run and uses upsert keys so reruns can update the same records cleanly.
+
+If you want GitHub to sync automatically, add these repository secrets:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- optional `SUPABASE_SCHEMA`
+- optional `SUPABASE_TABLE_PREFIX`
+
+Then the workflow at [.github/workflows/supabase-sync.yml](./.github/workflows/supabase-sync.yml) will sync the latest committed `outputs/village_provider_signal_estimate.csv` whenever it changes, or whenever you run the workflow manually.
+
 ## Run
 
 ```powershell
@@ -100,6 +136,7 @@ Replace the empty OpenCellID and Ookla placeholders with real extracts for a pro
    - `Moderate`: nearest provider tower within `moderate_km`, or strong Ookla evidence without a near tower
    - `Weak`: provider tower within `search_radius_km`, or weaker area-level Ookla evidence
    - `Unknown`: no tower or performance evidence
+8. If Supabase is enabled, upsert the provider rows, village summary, and run metadata into the configured database tables.
 
 ## Recommended Workflow For India
 

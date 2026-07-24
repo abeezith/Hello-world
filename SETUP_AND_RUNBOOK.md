@@ -25,6 +25,33 @@ cd E:\Resources\SecondBrain\koraput_connectivity_pipeline
 pip install -r requirements.txt
 ```
 
+## Optional Supabase sync
+
+If you want the pipeline to write to Supabase as well as local files, set these environment variables before running:
+
+```powershell
+$env:SUPABASE_URL="https://YOUR-PROJECT.supabase.co"
+$env:SUPABASE_SERVICE_ROLE_KEY="YOUR_SERVICE_ROLE_KEY"
+```
+
+You can also override the default schema and table prefix:
+
+```powershell
+$env:SUPABASE_SCHEMA="public"
+$env:SUPABASE_TABLE_PREFIX="connectivity"
+```
+
+The sync is optional. If the variables are not set, the pipeline behaves exactly as before.
+
+## GitHub Actions sync
+
+If you want the latest committed outputs to sync automatically from GitHub:
+
+1. Add repository secrets named `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+1. Optionally add `SUPABASE_SCHEMA` and `SUPABASE_TABLE_PREFIX`.
+1. Commit updated `outputs/village_provider_signal_estimate.csv` and `outputs/village_connectivity_summary.xlsx`.
+1. The workflow in [.github/workflows/supabase-sync.yml](./.github/workflows/supabase-sync.yml) will push the latest CSV rows to Supabase on each relevant commit, or you can run it manually from the Actions tab.
+
 ## Run the Koraput base workflow
 
 ```powershell
@@ -54,6 +81,7 @@ cd E:\Resources\SecondBrain\koraput_connectivity_pipeline
 - Existing district folders are archived before overwrite.
 - Existing CSV, XLSX, JSON, and HTML files are archived before replacement.
 - Do not delete `outputs/_archive/`; it is the rollback history.
+- Do not store Supabase secrets in `config.yaml`; prefer environment variables or your GitHub repository secrets.
 
 ## Data recency fields
 
@@ -91,4 +119,3 @@ Suggested usage:
 4. Check the provider CSV, summary workbook, and HTML map.
 5. Rebuild the requested-district status and summary.
 6. Move to the next district only after the current one is verified.
-
