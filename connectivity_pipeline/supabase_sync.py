@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import uuid
+import time
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Any
@@ -237,13 +238,28 @@ def upsert_dataframe(
 
     for start in range(0, len(records), settings.chunk_size):
         payload = records[start : start + settings.chunk_size]
-        response = session.post(
-            url,
-            params=params,
-            json=payload,
-            timeout=settings.timeout_seconds,
-        )
-        response.raise_for_status()
+        last_error: Exception | None = None
+        for attempt in range(1, 6):
+            response = session.post(
+                url,
+                params=params,
+                json=payload,
+                timeout=settings.timeout_seconds,
+            )
+            if response.ok:
+                last_error = None
+                break
+
+            last_error = requests.HTTPError(
+                f"{response.status_code} Client Error for url: {response.url} | body: {response.text[:500]}"
+            )
+            if response.status_code not in {404, 429, 500, 502, 503, 504} or attempt == 5:
+                break
+
+            time.sleep(min(2 ** (attempt - 1), 30))
+
+        if last_error is not None:
+            raise last_error
 
 
 def slugify(value: str) -> str:
