@@ -49,6 +49,7 @@ If you want the latest committed outputs to sync automatically from GitHub:
 
 1. Add repository secrets named `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
 1. Optionally add `SUPABASE_SCHEMA` and `SUPABASE_TABLE_PREFIX`.
+1. Run [supabase/schema.sql](./supabase/schema.sql) once in the Supabase SQL Editor to create the three tables.
 1. Commit updated `outputs/village_provider_signal_estimate.csv` and `outputs/village_connectivity_summary.xlsx`.
 1. The workflow in [.github/workflows/supabase-sync.yml](./.github/workflows/supabase-sync.yml) will push the latest CSV rows to Supabase on each relevant commit, or you can run it manually from the Actions tab.
 

@@ -105,6 +105,8 @@ If you want GitHub to sync automatically, add these repository secrets:
 
 Then the workflow at [.github/workflows/supabase-sync.yml](./.github/workflows/supabase-sync.yml) will sync the latest committed `outputs/village_provider_signal_estimate.csv` whenever it changes, or whenever you run the workflow manually.
 
+Before the first sync, create the tables once by running [supabase/schema.sql](./supabase/schema.sql) in the Supabase SQL Editor. Supabase will not create these tables automatically just because the workflow exists.
+
 ## Run
 
 ```powershell
