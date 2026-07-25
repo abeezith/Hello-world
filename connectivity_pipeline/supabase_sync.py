@@ -259,6 +259,12 @@ def upsert_dataframe(
             time.sleep(min(2 ** (attempt - 1), 30))
 
         if last_error is not None:
+            if "404 Client Error" in str(last_error):
+                raise requests.HTTPError(
+                    f"{last_error}\n"
+                    "Supabase returned 404 for the REST endpoint. This usually means SUPABASE_URL is not the project API URL.\n"
+                    "Use the Project URL from Supabase Dashboard -> Settings -> API / Integrations -> Data API, not the dashboard URL."
+                )
             raise last_error
 
 

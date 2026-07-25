@@ -52,6 +52,33 @@ jobs:
             echo "PROVIDER_CSV=outputs/village_provider_signal_estimate.csv" >> "$GITHUB_ENV"
           fi
 
+      - name: Preflight Supabase REST endpoint
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          import requests
+
+          url = os.environ["SUPABASE_URL"].rstrip("/")
+          key = os.environ["SUPABASE_SERVICE_ROLE_KEY"].strip()
+          endpoint = f"{url}/rest/v1/connectivity_runs?select=run_id&limit=1"
+          headers = {"apikey": key, "Authorization": f"Bearer {key}"}
+          response = requests.get(endpoint, headers=headers, timeout=30)
+          print(f"Preflight status: {response.status_code}")
+          if response.status_code == 404:
+              print("Supabase REST endpoint returned 404. Check that SUPABASE_URL is the project API URL, not the dashboard URL.")
+              sys.exit(1)
+          if response.status_code in {401, 403}:
+              print("Supabase REST endpoint is reachable, but the key is not accepted. Check the service role key.")
+              sys.exit(1)
+          if response.status_code >= 400:
+              print(response.text[:500])
+              sys.exit(1)
+          PY
+
       - name: Sync outputs to Supabase
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
